@@ -66,5 +66,20 @@ func main() {
 		return c.JSON(todos)
 	})
 
+	app.Get("/api/todos/:id", func(c *fiber.Ctx) error {
+		id, err := c.ParamsInt("id")
+		if err != nil {
+			return c.Status(401).SendString("Invalid ID")
+		}
+
+		for _, todo := range todos {
+			if todo.ID == id {
+				return c.JSON(todo)
+			}
+		}
+
+		return c.Status(404).SendString("Todo not found")
+	})
+
 	log.Fatal(app.Listen("localhost:4000"))
 }

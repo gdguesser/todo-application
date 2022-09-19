@@ -1,5 +1,6 @@
-import { Box, Checkbox, List, ThemeIcon } from "@mantine/core"
-import { CheckCircleFillIcon } from "@primer/octicons-react";
+import { Box, List, ThemeIcon, Anchor } from "@mantine/core"
+import { useState } from 'react'
+import { IconCircleCheck, IconCircleDashed } from '@tabler/icons';
 import useSWR from "swr"
 import './App.css'
 import AddTodo from './components/AddTodo'
@@ -19,6 +20,7 @@ const fetcher = (url: string) =>
 function App() {
 
   const {data, mutate} = useSWR<Todo[]>('api/todos', fetcher);
+  const [open, setOpen] = useState(false)
 
   async function markTodoAsDone(id: number) {
     const updated = await fetch(`${ENDPOINT}/api/todos/${id}/done`, {
@@ -26,6 +28,12 @@ function App() {
     }).then((r) => r.json());
 
     mutate(updated);
+  }
+
+  async function getTodo(id: number) {
+    await fetch(`${ENDPOINT}/api/todos/${id}`, {
+      method: "GET"
+    }).then((r) => r.json());
   }
 
   return <Box
@@ -42,16 +50,18 @@ function App() {
           onClick={() => markTodoAsDone(todo.id)}
           key={`todo_list__${todo.id}`}
           icon={
-            todo.done ? (<ThemeIcon color="teal" size={24} radius="xl">
-              <CheckCircleFillIcon size={20}/>
+            todo.done ? (<ThemeIcon color="teal" size="lg" radius="xl">
+              <IconCircleCheck size={20}/>
             </ThemeIcon>
           ) : (
-            <ThemeIcon color="gray" size={24} radius="xl">
-              <CheckCircleFillIcon size={20}/>
+            <ThemeIcon size="lg" radius="xl">
+              <IconCircleDashed size={20}/>
             </ThemeIcon>)
           }
         >
-          {todo.title}
+          <Anchor onClick={() => getTodo(todo.id)}>
+            {todo.title}
+          </Anchor>
         </List.Item>
       })}
     </List>
