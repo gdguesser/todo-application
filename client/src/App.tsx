@@ -1,4 +1,4 @@
-import { Box, List, ThemeIcon, Anchor, ActionIcon } from "@mantine/core"
+import { Box, List, Anchor, ActionIcon } from "@mantine/core"
 import { useState } from 'react'
 import { IconCircleCheck, IconCircleDashed } from '@tabler/icons';
 import useSWR from "swr"

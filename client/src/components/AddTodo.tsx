@@ -23,7 +23,7 @@ function AddTodo({mutate}: {mutate: KeyedMutator<Todo[]>}) {
             body: JSON.stringify(values)
         }).then((r) => r.json());
 
-        mutate(updated)
+        mutate(updated);
         form.reset();
         setOpen(false);
     }
