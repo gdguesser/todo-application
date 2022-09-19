@@ -1,4 +1,4 @@
-import { Box, List, ThemeIcon, Anchor } from "@mantine/core"
+import { Box, List, ThemeIcon, Anchor, ActionIcon } from "@mantine/core"
 import { useState } from 'react'
 import { IconCircleCheck, IconCircleDashed } from '@tabler/icons';
 import useSWR from "swr"
@@ -42,21 +42,30 @@ function App() {
       width: "100%",
       maxWidth: "40rem",
       margin: "0 auto",
+      textAlign: "start",
     })}
   >
     <List spacing="xs" size="sm" mb={12} center>
       {data?.map((todo) => {
         return <List.Item
-          onClick={() => markTodoAsDone(todo.id)}
           key={`todo_list__${todo.id}`}
           icon={
-            todo.done ? (<ThemeIcon color="teal" size="lg" radius="xl">
+            todo.done ? (<ActionIcon 
+                            variant="transparent"
+                            onClick={() => markTodoAsDone(todo.id)} 
+                            color="teal" 
+                            size="lg" 
+                            radius="xl">
               <IconCircleCheck size={20}/>
-            </ThemeIcon>
+            </ActionIcon>
           ) : (
-            <ThemeIcon size="lg" radius="xl">
+            <ActionIcon 
+              variant="transparent"
+              onClick={() => markTodoAsDone(todo.id)} 
+              size="lg" 
+              radius="xl">
               <IconCircleDashed size={20}/>
-            </ThemeIcon>)
+            </ActionIcon>)
           }
         >
           <Anchor onClick={() => getTodo(todo.id)}>
