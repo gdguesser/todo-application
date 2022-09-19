@@ -50,6 +50,10 @@ func main() {
 
 		for i, todo := range todos {
 			if todo.ID == id {
+				if todo.Done {
+					todos[i].Done = false
+					break
+				}
 				todos[i].Done = true
 				break
 			}
