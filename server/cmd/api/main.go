@@ -62,6 +62,23 @@ func main() {
 		return c.JSON(todos)
 	})
 
+	app.Delete("/api/todos/:id/delete", func(c *fiber.Ctx) error {
+		id, err := c.ParamsInt("id")
+		if err != nil {
+			return c.Status(401).SendString("Invalid ID")
+		}
+
+		for i, todo := range todos {
+			if todo.ID == id {
+				todos[i] = todos[len(todos)-1]
+				todos = todos[:len(todos)-1]
+				break
+			}
+		}
+
+		return c.JSON(todos)
+	})
+
 	app.Get("/api/todos", func(c *fiber.Ctx) error {
 		return c.JSON(todos)
 	})

@@ -1,6 +1,6 @@
 import { Box, List, Anchor, ActionIcon } from "@mantine/core"
 import { useState } from 'react'
-import { IconCircleCheck, IconCircleDashed } from '@tabler/icons';
+import { IconCircleCheck, IconCircleDashed, IconX } from '@tabler/icons';
 import useSWR from "swr"
 import './App.css'
 import AddTodo from './components/AddTodo'
@@ -34,6 +34,14 @@ function App() {
     await fetch(`${ENDPOINT}/api/todos/${id}`, {
       method: "GET"
     }).then((r) => r.json());
+  }
+
+  async function deleteTodo(id: number) {
+    const updated = await fetch(`${ENDPOINT}/api/todos/${id}/delete`, {
+      method: "DELETE"
+    }).then((r) => r.json());
+
+    mutate(updated);
   }
 
   return <Box
@@ -71,6 +79,13 @@ function App() {
           <Anchor onClick={() => getTodo(todo.id)}>
             {todo.title}
           </Anchor>
+          <ActionIcon 
+              variant="transparent"
+              onClick={() => deleteTodo(todo.id)} 
+              size="lg" 
+              radius="xl">
+              <IconX size={20}/>
+            </ActionIcon>)
         </List.Item>
       })}
     </List>
