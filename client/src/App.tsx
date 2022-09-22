@@ -85,7 +85,7 @@ function App() {
               size="lg" 
               radius="xl">
               <IconX size={20}/>
-            </ActionIcon>)
+            </ActionIcon>
         </List.Item>
       })}
     </List>
